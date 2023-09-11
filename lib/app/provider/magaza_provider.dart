@@ -7,16 +7,16 @@ final magazaProvider = Provider((ref) => MagazaProvider(MagazaService()));
 
 class MagazaProvider extends ChangeNotifier {
   final MagazaService _magazaService;
+  String? magazaName;
   MagazaProvider(this._magazaService);
 
-  Future<MagazaDataModel?> getMagazaData() {
-    return Future.delayed(
+  Future<MagazaDataModel?> getMagazaData() async {
+    return await Future.delayed(
       const Duration(
         seconds: 2,
       ),
       () {
         var magaza = _magazaService.getMagazaData();
-        print('MAGAZAA::::: ${magaza!.magazaKod}');
         return magaza;
       },
     );

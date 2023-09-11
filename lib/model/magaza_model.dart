@@ -1,18 +1,21 @@
 class MagazaDataModel {
-  String? magazaNo;
-  String? magazaKod;
+  String? no;
+  String? code;
+  String? name;
 
-  MagazaDataModel({this.magazaNo, this.magazaKod});
+  MagazaDataModel({this.no, this.code, this.name});
 
   MagazaDataModel.fromJson(Map<String, dynamic> json) {
-    magazaNo = json['magaza_no'];
-    magazaKod = json['magaza_kod'];
+    no = json['no'];
+    code = json['code'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['magaza_no'] = magazaNo;
-    data['magaza_kod'] = magazaKod;
+    data['no'] = no;
+    data['code'] = code;
+    data['name'] = name;
     return data;
   }
 }

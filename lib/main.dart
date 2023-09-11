@@ -110,7 +110,7 @@ class _QRViewExampleState extends ConsumerState<QRViewExample> {
                   setState(() {
                     result = scanData;
                   });
-                  if (snapshot.data!.magazaKod! == result!.code) {
+                  if (snapshot.data!.code! == result!.code) {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -133,17 +133,6 @@ class _QRViewExampleState extends ConsumerState<QRViewExample> {
             );
           }
         });
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-    });
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
