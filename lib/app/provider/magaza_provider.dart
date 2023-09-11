@@ -10,7 +10,7 @@ class MagazaProvider extends ChangeNotifier {
   String? magazaName;
   MagazaProvider(this._magazaService);
 
-  Future<MagazaDataModel?> getMagazaData() async {
+  Future<MagazaDataModel> getMagazaData() async {
     return await Future.delayed(
       const Duration(
         seconds: 2,

@@ -110,12 +110,14 @@ class _QRViewExampleState extends ConsumerState<QRViewExample> {
                   setState(() {
                     result = scanData;
                   });
-                  if (snapshot.data!.code! == result!.code) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
-                        ));
+                  for (var data in snapshot.data!.magazaData!) {
+                    if (data.code == result!.code) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ));
+                    }
                   }
                 });
               },

@@ -6,35 +6,37 @@ final homeProvider =
     ChangeNotifierProvider((ref) => HomeProvider(ref.read(magazaProvider)));
 
 class HomeProvider extends ChangeNotifier {
-  String? magazaName;
+  String? magazaTitle;
   final MagazaProvider _magazaProvider;
   HomeProvider(this._magazaProvider);
 
   getMagazaName() async {
     var magaza = await _magazaProvider.getMagazaData();
-    switch (magaza!.name) {
-      case 'A':
-        magazaName = magaza.name;
-        notifyListeners();
-        break;
-      case 'B':
-        magazaName = magaza.name;
-        notifyListeners();
-        break;
-      case 'C':
-        magazaName = magaza.name;
-        notifyListeners();
-        break;
-      case 'D':
-        magazaName = magaza.name;
-        notifyListeners();
-        break;
-      case 'E':
-        magazaName = magaza.name;
-        notifyListeners();
-        break;
-      default:
-        magazaName = 'MOPAŞ';
+    for (var magazaName in magaza.magazaData!) {
+      switch (magazaName.name) {
+        case 'A':
+          magazaTitle = magazaName.name;
+          notifyListeners();
+          break;
+        case 'B':
+          magazaTitle = magazaName.name;
+          notifyListeners();
+          break;
+        case 'C':
+          magazaTitle = magazaName.name;
+          notifyListeners();
+          break;
+        case 'D':
+          magazaTitle = magazaName.name;
+          notifyListeners();
+          break;
+        case 'E':
+          magazaTitle = magazaName.name;
+          notifyListeners();
+          break;
+        default:
+          magazaName.name = 'MOPAŞ';
+      }
     }
   }
 }
