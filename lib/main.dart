@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mopas_mal_kabul_test/app/provider/home_provider.dart';
 import 'package:mopas_mal_kabul_test/app/provider/magaza_provider.dart';
 import 'package:mopas_mal_kabul_test/home_screen.dart';
 import 'package:mopas_mal_kabul_test/model/magaza_model.dart';
@@ -43,27 +44,12 @@ class QRViewExample extends ConsumerStatefulWidget {
 }
 
 class _QRViewExampleState extends ConsumerState<QRViewExample> {
-  Barcode? result;
-  QRViewController? controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    }
-    controller!.resumeCamera();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
+        children: const [
+          Expanded(flex: 4, child: BuildQRView()),
           /*Expanded(
             flex: 1,
             child: FittedBox(
@@ -87,15 +73,41 @@ class _QRViewExampleState extends ConsumerState<QRViewExample> {
       ),
     );
   }
+}
 
-  Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+class BuildQRView extends ConsumerStatefulWidget {
+  const BuildQRView({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _BuildQRViewState();
+}
+
+class _BuildQRViewState extends ConsumerState<BuildQRView> {
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    }
+    controller!.resumeCamera();
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
     return FutureBuilder<MagazaDataModel?>(
         future: ref.read(magazaProvider).getMagazaData(),
         builder: (context, snapshot) {
@@ -112,6 +124,7 @@ class _QRViewExampleState extends ConsumerState<QRViewExample> {
                   });
                   for (var data in snapshot.data!.magazaData!) {
                     if (data.code == result!.code) {
+                      ref.read(homeProvider).setMagazaName(data.name!);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -144,12 +157,6 @@ class _QRViewExampleState extends ConsumerState<QRViewExample> {
         const SnackBar(content: Text('no Permission')),
       );
     }
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
   }
 }
 

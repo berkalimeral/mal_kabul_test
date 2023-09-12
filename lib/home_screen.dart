@@ -10,7 +10,7 @@ class HomeScreen extends ConsumerWidget {
     final watch = ref.watch(homeProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(watch.magazaTitle ?? 'Home Screen'),
+        title: Text(watch.magazaTitle ?? 'Home'),
       ),
       body: const Center(
         child: Text('Home Screen'),

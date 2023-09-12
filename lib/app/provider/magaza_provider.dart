@@ -7,7 +7,6 @@ final magazaProvider = Provider((ref) => MagazaProvider(MagazaService()));
 
 class MagazaProvider extends ChangeNotifier {
   final MagazaService _magazaService;
-  String? magazaName;
   MagazaProvider(this._magazaService);
 
   Future<MagazaDataModel> getMagazaData() async {
